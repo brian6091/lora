@@ -20,6 +20,7 @@ class LoraInjectedLinear(nn.Module):
 
         self.linear = nn.Linear(in_features, out_features, bias)
         self.lora_down = nn.Linear(in_features, r, bias=False)
+        self.relu = nn.ReLU(inplace=True)
         self.lora_up = nn.Linear(r, out_features, bias=False)
         self.scale = 1.0
 
@@ -27,7 +28,7 @@ class LoraInjectedLinear(nn.Module):
         nn.init.zeros_(self.lora_up.weight)
 
     def forward(self, input):
-        return self.linear(input) + self.lora_up(self.lora_down(input)) * self.scale
+        return self.linear(input) + self.lora_up(self.relu(self.lora_down(input))) * self.scale
 
 
 UNET_DEFAULT_TARGET_REPLACE = {"CrossAttention", "Attention", "GEGLU"}
