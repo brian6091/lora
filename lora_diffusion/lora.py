@@ -20,7 +20,7 @@ class LoraInjectedLinear(nn.Module):
 
         self.linear = nn.Linear(in_features, out_features, bias)
         self.lora_down = nn.Linear(in_features, r, bias=False)
-        self.relu = nn.ReLU(inplace=True)
+        self.relu = nn.GELU(inplace=True)
         self.lora_up = nn.Linear(r, out_features, bias=False)
         self.scale = 8.0
 
