@@ -33,6 +33,8 @@ class LoraInjectedLinear(nn.Module):
         if init=="kaiming":
             pass
             # Kaiming with a=math.sqrt(5) is default for nn.Linear
+        elif init=="orthogonal":
+            nn.init.orthogonal_(self.lora_down.weight)
         else:
             nn.init.normal_(self.lora_down.weight, std=1 / r)
             
